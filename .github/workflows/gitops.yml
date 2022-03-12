@@ -18,11 +18,10 @@ jobs:
 
       - name: Test
         run: |
-          kubectl cluster-info
-          kubectl apply -f ./argo-setup/cert-issuer.yaml
-          sleep 30
           kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
           sleep 30
+          kubectl apply -f ./argo-setup/cert-issuer.yaml
+          sleep 20
           
           kubectl create namespace argocd
           kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
