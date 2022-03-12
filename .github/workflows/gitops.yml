@@ -14,12 +14,11 @@ jobs:
         uses: helm/kind-action@v1.2.0
         with:
           cluster_name: "sandbox"
+          config: ./argo-setup/kind.yaml
 
       - name: Test
         run: |
           kubectl cluster-info
-          kubectl apply -f ./argo-setup/kind.yaml
-          sleep 30
           kubectl apply -f ./argo-setup/cert-issuer.yaml
           sleep 30
           kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
