@@ -32,24 +32,23 @@ jobs:
           kubectl get pods --all-namespaces
           kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
           curl -sSL -o /tmp/argocd https://github.com/argoproj/argo-cd/releases/download/v2.2.7/argocd-linux-amd64
-          sudo chmod +x /tmp/argocd
-          alias argocd=/tmp/argocd
-          argocd version          
-          argocd login $(kubectl get service argocd-server -n argocd --output=jsonpath='{.status.loadBalancer.ingress[0].hostname}') --username admin --password $(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo) --insecure
+          chmod +x /tmp/argocd
+          /tmp/argocd version          
+          /tmp/argocd login $(kubectl get service argocd-server -n argocd --output=jsonpath='{.status.loadBalancer.ingress[0].hostname}') --username admin --password $(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo) --insecure
           sleep 20
-          argocd app create helm-guestbook --repo https://github.com/govindarajanv/kind-argocd-gitops.git --path helm-guestbook --dest-server https://kubernetes.default.svc --dest-namespace default
+          /tmp/argocd app create helm-guestbook --repo https://github.com/govindarajanv/kind-argocd-gitops.git --path helm-guestbook --dest-server https://kubernetes.default.svc --dest-namespace default
           sleep 20
-          argocd app list
-          argocd app get helm-guestbook
+          /tmp/argocd app list
+          /tmp/argocd app get helm-guestbook
           kubectl port-forward svc/helm-guestbook 9090:80 &
           curl http://localhost:9090
           # argocd app set helm-guestbook --sync-policy automated
           workdone=0
           while true; do
-            argocd app list
+            /tmp/argocd app list
             kubectl get deployment --all-namespaces
             sleep 10
-            argocd app sync helm-guestbook
+            /tmp/argocd app sync helm-guestbook
             ((workdone=workdone+1))
             if [ "$workdone" -gt 30 ]; then
               break
