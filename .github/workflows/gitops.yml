@@ -16,7 +16,5 @@ jobs:
       - name: Test
         run: |
           kubectl cluster-info
-          kubectl run httpd --image=httpd
-          sleep 60
-          kubectl get pods
-          sleep 60
+          pwd
+          find . -name "*.yaml"
