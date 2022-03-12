@@ -10,12 +10,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: file checker
-        run: |
-          pwd
-          ls -rlt
-          
-          exit 1
       - name: Create k8s Kind Cluster
         uses: helm/kind-action@v1.2.0
         with:
