@@ -16,5 +16,16 @@ jobs:
       - name: Test
         run: |
           kubectl cluster-info
-          pwd
-          find . -name "*.yaml"
+          kubectl apply -f ./argo-setup/kind.yaml
+          sleep 30
+          kubectl apply -f ./argo-setup/cert-issuer.yaml
+          sleep 30
+          kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+          sleep 30
+          
+          kubectl create namespace argocd
+          kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+          sleep 30
+          kubectl apply -f ./argo-setup/ingress.yaml
+          kubectl get pods --all-namespaces
+
