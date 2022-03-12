@@ -18,7 +18,7 @@ jobs:
 
       - name: GitOps
         run: |
-          sed -i '1 s/$/ argocd.local/' /etc/hosts
+          sudo sed -i '1 s/$/ argocd.local/' /etc/hosts
           curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/download/v2.2.7/argocd-linux-amd64
           chmod +x /usr/local/bin/argocd
           argocd version          
