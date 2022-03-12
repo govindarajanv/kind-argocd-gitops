@@ -36,7 +36,7 @@ jobs:
           curl -sSL -o /tmp/argocd https://github.com/argoproj/argo-cd/releases/download/v2.2.7/argocd-linux-amd64
           echo "changing permission"
           chmod +x /tmp/argocd
-          /tmp/argocd version 
+          /tmp/argocd version --client
           echo "Trying to login"
           kubectl get service argocd-server -n argocd || true         
           /tmp/argocd login argocd.local --username admin --password $(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo) --insecure
