@@ -41,4 +41,16 @@ jobs:
           argocd app get helm-guestbook
           kubectl port-forward svc/helm-guestbook 9090:80 &
           curl http://localhost:9090
+          # argocd app set helm-guestbook --sync-policy automated
+          workdone=0
+          while true; do
+            argocd app list
+            kubectl get deployment --all-namespaces
+            sleep 10
+            argocd app sync helm-guestbook
+            ((workdone=workdone+1))
+            if [ "$workdone" -gt 30 ]; then
+              break
+            fi
+          done
 
